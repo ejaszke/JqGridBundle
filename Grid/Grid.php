@@ -90,6 +90,8 @@ class Grid extends GridTools
      */
     protected $subGrid;
 
+    protected $customDialog;
+
     /**
      * @param \Symfony\Component\DependencyInjection\Container $container
      */
@@ -108,6 +110,7 @@ class Grid extends GridTools
         $this->caption = '';
         $this->routeforced = '';
         $this->hideifempty = false;
+        $this->customDialog = false;
 
         if ($this->request->isXmlHttpRequest()) {
             $this->onlyData = true;
@@ -311,7 +314,7 @@ class Grid extends GridTools
     {
         return $this->subGrid;
     }
-    
+
     /**
      * @return \Doctrine\ORM\QueryBuilder
      */
@@ -319,8 +322,8 @@ class Grid extends GridTools
     {
         return $this->qb;
     }
-    
-    
+
+
 
     public function render()
     {
@@ -383,10 +386,10 @@ class Grid extends GridTools
                         $val[] = $c->getFieldValue();
                     } elseif ($c->getFieldTwig()) {
                         $val[] = $this->templating
-                                      ->render($c->getFieldTwig(),
-                                        array(
-                                            'ligne' => $row
-                                        ));
+                            ->render($c->getFieldTwig(),
+                                array(
+                                    'ligne' => $row
+                                ));
                     } else {
                         $val[] = ' ';
                     }
@@ -404,9 +407,9 @@ class Grid extends GridTools
     public function setDefaultOptions()
     {
         $this->options = array(
-                'height' => '100%', 'rowNum' => 10, 'rowList' => array(
-                    10, 20, 30
-                ), 'datatype' => 'json', 'viewrecords' => true,
+            'height' => '100%', 'rowNum' => 10, 'rowList' => array(
+                10, 20, 30
+            ), 'datatype' => 'json', 'viewrecords' => true,
         );
 
         $this->navOptions = array(
@@ -442,6 +445,7 @@ class Grid extends GridTools
         }
 
     }
+
 
     public function getOptions($json = true)
     {
@@ -488,6 +492,17 @@ class Grid extends GridTools
                 }
             }
         }
+    }
+
+
+    public function getCustomDialog()
+    {
+        return $this->customDialog;
+    }
+
+    public function setCustomDialog($state)
+    {
+        $this->customDialog = $state;
     }
 
 }

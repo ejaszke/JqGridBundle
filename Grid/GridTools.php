@@ -7,7 +7,16 @@ class GridTools
     {
 
         foreach ($input as $key => $value) {
-            if (is_array($value)) {
+            if (is_object($value)){
+
+                if ($value instanceof \DateTime){
+                    $func_key = "#" . uniqid() . "#";
+                    $value = ltrim('"'.$value->format('Y-m-d').'"', 'var_');
+                    $funcs[$func_key] = $value;
+                    $input[$key] = $func_key;
+                }
+
+            } else if (is_array($value)) {
                 $ret = self::encode($value, $funcs, 1);
                 $input[$key] = $ret[0];
                 $funcs = $ret[1];
