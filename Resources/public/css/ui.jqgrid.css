@@ -91,7 +91,7 @@
 /* toolbar */
 .ui-jqgrid .ui-userdata {border-left: 0 none;    border-right: 0 none;	height : 21px;overflow: hidden;	}
 /*Modal Window */
-.ui-jqdialog { font-size:11px !important; }
+.ui-jqgrid .ui-jqdialog { font-size:11px; }
 .ui-jqdialog { display: none; width: 300px; position: absolute; padding: .2em; font-size:11px; overflow:visible;}
 .ui-jqdialog .ui-jqdialog-titlebar { padding: .3em .2em; position: relative; height:20px;}
 .ui-jqdialog .ui-jqdialog-title { margin: .3em 0 .2em; } 
@@ -154,7 +154,7 @@
 .ui-jqgrid .ui-ellipsis {-moz-text-overflow:ellipsis;text-overflow:ellipsis;}
 
 /* Toolbar Search Menu */
-.ui-search-menu { position: absolute; padding: 2px 5px; z-index:99999;}
+.ui-search-menu { position: absolute; padding: 2px 5px;}
 .ui-search-menu.ui-menu .ui-menu-item { list-style-image: none; padding-right: 0; padding-left: 0; }
 .ui-search-menu.ui-menu .ui-menu-item a { display: block; }
 .ui-search-menu.ui-menu .ui-menu-item a.g-menu-item:hover { margin: -1px; font-weight: normal; }
