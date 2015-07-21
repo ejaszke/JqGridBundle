@@ -14,6 +14,15 @@ class ComparisionFilterMapper extends AbstractFilterMapper
         $queryBuilder = $this->grid->getQueryBuilder();
         $expression = $this->grid->getQueryBuilder()->expr();
 
+        $where = null;
+        if ($this->column->getFieldName() == "kategorie") {
+            $rule['op'] = 'cat';
+        }
+
+        if ($this->column->getFieldName() == "tresc") {
+            $rule['op'] = 'content';
+        }
+
         switch ($rule['op']) {
             case 'eq':
                 $where = $expression->eq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}");
@@ -51,20 +60,20 @@ class ComparisionFilterMapper extends AbstractFilterMapper
 
             case 'nu':
                 $where = $expression
-                        ->orX(
-                                $expression
-                                        ->eq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}"),
-                                $this->column->getFieldIndex() . ' IS NULL');
+                    ->orX(
+                        $expression
+                            ->eq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}"),
+                        $this->column->getFieldIndex() . ' IS NULL');
 
                 $parameter = '';
                 break;
 
             case 'nn':
                 $where = $expression
-                        ->andX(
-                                $expression
-                                        ->neq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}"),
-                                $this->column->getFieldIndex() . ' IS NOT NULL');
+                    ->andX(
+                        $expression
+                            ->neq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}"),
+                        $this->column->getFieldIndex() . ' IS NOT NULL');
 
                 $parameter = '';
                 break;
@@ -120,6 +129,29 @@ class ComparisionFilterMapper extends AbstractFilterMapper
                 $parameter = '%' . $rule['data'] . '%';
                 break;
 
+            case 'cat':
+                $em = $this->grid->getQueryBuilder()->getEntityManager();
+                $in = $em->getRepository('EffectSzkoleniaBundle:Wykladowca')
+                    ->createQueryBuilder('ms')
+                    ->select('ms.id')
+                    ->join('ms.kategoriaProgramu', 'kp')
+                    ->where($expression->eq('kp.nazwa', ":kategorie"));
+
+                $where = $expression->in('u.id', $in->getDQL());
+                break;
+
+            case 'content':
+                $em = $this->grid->getQueryBuilder()->getEntityManager();
+                $in = $em->getRepository('EffectSzkoleniaBundle:Program')
+                    ->createQueryBuilder('ms')
+                    ->select('identity(ms.wykladowca)')
+                    ->where('ms.programTresc LIKE :tresc');
+
+                $parameter = '%' . $rule['data'];
+
+                $where = $expression->in('u.id', $in->getDQL());
+                break;
+
             default: // Case 'cn' (contains)
                 $where = $expression->like($this->column->getFieldIndex(), ":{$this->column->getFieldName()}");
                 $parameter = '%' . $rule['data'] . '%';
@@ -134,5 +166,7 @@ class ComparisionFilterMapper extends AbstractFilterMapper
         if (isset($parameter)) {
             $queryBuilder->setParameter($this->column->getFieldName(), $parameter);
         }
+
+
     }
 }
