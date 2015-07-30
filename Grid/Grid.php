@@ -379,9 +379,10 @@ class Grid extends GridTools
                 $row = $item;
 
                 $val = array();
+
                 foreach ($this->columns as $c) {
                     if (array_key_exists($c->getFieldName(), $row)) {
-                        $val[] = $row[$c->getFieldName()];
+                        $val[$this->getName() . $c->getFieldName()] = $row[$c->getFieldName()];
                     } elseif ($c->getFieldValue()) {
                         $val[] = $c->getFieldValue();
                     } elseif ($c->getFieldTwig()) {
@@ -395,7 +396,8 @@ class Grid extends GridTools
                     }
                 }
 
-                $response['rows'][$key]['cell'] = $val;
+
+                $response['rows'][$key] = $val;
             }
 
             return $response;
@@ -481,6 +483,7 @@ class Grid extends GridTools
         $filters = json_decode($filters, true);
         $rules = $filters['rules'];
         $groupOp = $filters['groupOp']; //AND or OR
+
 
         if ($rules) {
             foreach ($rules as $rule) {
