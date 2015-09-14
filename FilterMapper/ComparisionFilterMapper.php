@@ -147,7 +147,7 @@ class ComparisionFilterMapper extends AbstractFilterMapper
                     ->select('identity(ms.wykladowca)')
                     ->where('ms.programTresc LIKE :tresc');
 
-                $parameter = '%' . $rule['data'];
+                $parameter = '%' . $rule['data'] . '%';
 
                 $where = $expression->in('u.id', $in->getDQL());
                 break;
