@@ -143,9 +143,9 @@ class ComparisionFilterMapper extends AbstractFilterMapper
             case 'content':
                 $em = $this->grid->getQueryBuilder()->getEntityManager();
                 $in = $em->getRepository('EffectSzkoleniaBundle:Program')
-                    ->createQueryBuilder('ms')
-                    ->select('identity(ms.wykladowca)')
-                    ->where('ms.programTresc LIKE :tresc');
+                    ->createQueryBuilder('pt')
+                    ->select('identity(pt.wykladowca)')
+                    ->where('pt.programTresc LIKE :tresc');
 
                 $parameter = '%' . $rule['data'] . '%';
 
