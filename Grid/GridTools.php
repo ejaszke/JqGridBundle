@@ -11,7 +11,8 @@ class GridTools
 
                 if ($value instanceof \DateTime){
                     $func_key = "#" . uniqid() . "#";
-                    $value = ltrim('"'.$value->format('Y-m-d H:i:s').'"', 'var_');
+                    $dateTime = str_replace('00:00:00', '', $value->format('Y-m-d H:i:s'));
+                    $value = ltrim('"'.$dateTime.'"', 'var_');
                     $funcs[$func_key] = $value;
                     $input[$key] = $func_key;
                 }
