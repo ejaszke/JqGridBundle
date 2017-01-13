@@ -6,8 +6,7 @@
 
 	<parameters>
 		<parameter key="eps_jq_grid.base.class">EPS\JqGridBundle\Grid\Grid</parameter>
-		<parameter key="eps_jq_grid.twig_extension.class">EPS\JqGridBundle\Twig\JqGridExtension
-		</parameter>
+		<parameter key="eps_jq_grid.twig_extension.class">EPS\JqGridBundle\Twig\JqGridExtension</parameter>
 	</parameters>
 
 	<services>
