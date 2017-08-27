@@ -50,19 +50,19 @@ class JqGridExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-                'jqgrid' => new \Twig_SimpleFunction($this, 'renderGrid',
+                'jqgrid' => new \Twig_SimpleFunction('renderGrid',[$this, 'renderGrid'],
                         array(
                             'is_safe' => array(
                                 'html'
                             )
                         )),
-                'jqgrid_js' => new \Twig_SimpleFunction($this, 'renderGridJs',
+                'jqgrid_js' => new \Twig_SimpleFunction('renderGridJs',[$this, 'renderGridJs'],
                         array(
                             'is_safe' => array(
                                 'html'
                             )
                         )),
-                'jqgrid_html' => new \Twig_SimpleFunction($this, 'renderGridHtml',
+                'jqgrid_html' => new \Twig_SimpleFunction('renderGridHtml', [$this, 'renderGridHtml'],
                         array(
                             'is_safe' => array(
                                 'html'
