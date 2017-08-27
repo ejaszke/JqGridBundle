@@ -50,17 +50,15 @@ class JqGridExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-                new \Twig_SimpleFunction('jqgrid', 'renderGrid',['is_safe' =>['html']]),
-                new \Twig_SimpleFunction('jqgrid_js', 'renderGridJs',['is_safe' =>['html']]),
-                new \Twig_SimpleFunction('jqgrid_html', 'renderGridHtml',['is_safe' =>['html']])
+                new \Twig_SimpleFunction('jqgrid', [$this, 'renderGrid'] ,['is_safe' =>['html'], 'needs_environment' => true]),
+                new \Twig_SimpleFunction('jqgrid_js', [$this, 'renderGridJs'],['is_safe' =>['html'], 'needs_environment' => true]),
+                new \Twig_SimpleFunction('jqgrid_html', [$this,'renderGridHtml'],['is_safe' =>['html'], 'needs_environment' => true])
         ];
     }
 
-    public function renderGrid(Grid $grid)
+    public function renderGrid(\Twig_Environment $env, Grid $grid)
     {
-        if (!$grid->isOnlyData()) {
-            return $this->renderBlock('jqgrid', ['grid' => $grid]);
-        }
+        return $env->render( $this::DEFAULT_TEMPLATE, ['grid' => $grid]);
     }
 
     public function renderGridJs(Grid $grid)
@@ -118,10 +116,10 @@ class JqGridExtension extends \Twig_Extension
      * @return \Twig_TemplateInterface[]
      * @throws \Exception
      */
-    private function getTemplates()
+    private function getTemplates(\Twig_Environment $env)
     {
         if (empty($this->templates)) {
-            $this->templates[] = $this->environment->loadTemplate($this::DEFAULT_TEMPLATE);
+            $this->templates[] = $env->loadTemplate($this::DEFAULT_TEMPLATE);
         }
 
         return $this->templates;
