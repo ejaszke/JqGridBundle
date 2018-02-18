@@ -27,6 +27,10 @@ class ComparisionFilterMapper extends AbstractFilterMapper
             case 'eq':
                 $where = $expression->eq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}");
                 break;
+            case 'b':
+                $where = $expression->eq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}");
+                $parameter = $parameter === 'true' ? true : false;
+                break;
 
             case 'ne':
                 $where = $expression->neq($this->column->getFieldIndex(), ":{$this->column->getFieldName()}");
